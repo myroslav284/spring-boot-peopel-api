@@ -42,15 +42,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void changePerson(Long id, Person updatedPerson) {
+    public Person changePerson(Long id, PersonRequest updatedPersonRequest) {
         Person existingPerson = getPersonById(id);
 
         // Update the details
-        existingPerson.setName(updatedPerson.getName());
-        existingPerson.setSurname(updatedPerson.getSurname());
-        existingPerson.setAge(updatedPerson.getAge());
+        existingPerson.setName(updatedPersonRequest.getName());
+        existingPerson.setSurname(updatedPersonRequest.getSurname());
+        existingPerson.setAge(updatedPersonRequest.getAge());
 
         // Save the updated person
         personRepository.save(existingPerson);
+        return existingPerson;
     }
 }
