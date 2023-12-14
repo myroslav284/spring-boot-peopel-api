@@ -1,5 +1,6 @@
 package com.example.springbootpeopleapi.service;
 
+import com.example.springbootpeopleapi.dto.PersonRequest;
 import com.example.springbootpeopleapi.model.Person;
 import com.example.springbootpeopleapi.repository.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,10 +13,12 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository personRepository;
-
     @Override
-    public void savePerson(Person person) {
+    public Person savePerson(PersonRequest personRequest) {
+        Person person = Person.build(0L, personRequest.getName(), personRequest.getSurname(),
+                personRequest.getAge());
         personRepository.save(person);
+        return person;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> getPeople(String keyword) {
         if (keyword != null) {
             return personRepository.findPeopleBySurnameOrName(keyword);
-        } else return (List<Person>) personRepository.findAll();
+        } else return personRepository.findAll();
 
     }
 

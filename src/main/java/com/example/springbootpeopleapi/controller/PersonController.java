@@ -1,10 +1,11 @@
 package com.example.springbootpeopleapi.controller;
 
+import com.example.springbootpeopleapi.dto.PersonRequest;
 import com.example.springbootpeopleapi.model.Person;
 import com.example.springbootpeopleapi.service.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api/people")
 public class PersonController {
     @Autowired
@@ -32,9 +33,9 @@ public class PersonController {
 
     @PostMapping("/savePerson")
     @ResponseBody
-    public Person savePerson(@RequestBody Person person) {
-        personService.savePerson(person);
-        return person;
+    public Person savePerson(@RequestBody @Valid PersonRequest personRequest) {
+
+        return personService.savePerson(personRequest);
     }
     @PutMapping("/changePerson/{id}")
     @ResponseBody
